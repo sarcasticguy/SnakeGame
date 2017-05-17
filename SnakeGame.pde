@@ -18,9 +18,19 @@ void setup() {
   setFoodLocation();
 }
 
-void draw() {
+void keyPressed(){
+  if(key=='w'){
+    s.dir(0,-1);
+  }if(key=='d'){
+    s.dir(1,0);
+  }if(key=='s'){
+    s.dir(0, 1);
+  }if(key=='a'){
+    s.dir(-1, 0);
+  }
+}
+  void draw() {
   background(51);
-
   // TODO: check whether the keyPressed variable is true.
   //       If it is, check which is key is pressed, using
   //       something like one of these: 
@@ -32,13 +42,15 @@ void draw() {
   //         s.dir(-1, 0) moves the snake left
   //         s.dir(1, 0) moves the snake right
   //       Then replace this comment with one of your own.
-  
-  s.checkForPulse();
-  s.update();
+  text("Score="+s.total, 540, 10);
+s.update();
+s.checkForPulse();
   s.show();
 
   gotFood = s.eat(food);
-  
+  if(gotFood==true){
+    setFoodLocation();
+  }
   // TODO: Write code that checks if
   //       gotFood is true. If it is,
   //       then call the function
@@ -69,7 +81,6 @@ void draw() {
   //            - first tinker on your own
   //            - then ask a colleague if you need help or ideas
   //       Then replace this comment with one of your own. 
-  
 }
 
 
@@ -81,7 +92,7 @@ void setFoodLocation() {
 }
 
 
-class Snake {
+class Snake{
   float x = 0;
   float y = 0;
   float xspeed = 1;
@@ -126,14 +137,20 @@ class Snake {
       }
       tail.add(new PVector(x, y));
     }
-
     x = x + xspeed*scl;
     y = y + yspeed*scl;
-
+  if(x>=590){
+     x=0; 
+    }if(x<=-10){
+      x=600;
+    }if(y>590){
+     y=0; 
+    }if(y<=-10){
+     y=600; 
+    }
     x = constrain(x, 0, width-scl);
     y = constrain(y, 0, height-scl);
   }
-
   void show() {
     fill(255);
     for (PVector v : tail) {
